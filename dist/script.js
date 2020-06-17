@@ -938,7 +938,7 @@ window.addEventListener('DOMContentLoaded', function () {
   var slider = new _modules_slider__WEBPACK_IMPORTED_MODULE_0__["default"]('.page', '.next');
   slider.render();
   var player = new _modules_playVideo__WEBPACK_IMPORTED_MODULE_1__["default"]('.showup .play', '.overlay');
-  player.play();
+  player.init();
 });
 
 /***/ }),
@@ -975,13 +975,52 @@ function () {
   }
 
   _createClass(VideoPlayer, [{
-    key: "play",
-    value: function play() {
+    key: "bindTriggers",
+    value: function bindTriggers() {
+      var _this = this;
+
       this.btns.forEach(function (btn) {
         btn.addEventListener('click', function () {
-          console.log('hello');
+          if (document.querySelector('iframe#frame')) {
+            _this.overlay.style.display = 'flex';
+          } else {
+            var path = btn.getAttribute('data-url');
+
+            _this.createPlayer(path);
+          }
         });
       });
+    }
+  }, {
+    key: "bindCloseBtn",
+    value: function bindCloseBtn() {
+      var _this2 = this;
+
+      this.close.addEventListener('click', function () {
+        _this2.overlay.style.display = 'none';
+
+        _this2.player.stopVideo();
+      });
+    }
+  }, {
+    key: "createPlayer",
+    value: function createPlayer(url) {
+      this.player = new YT.Player('frame', {
+        height: '100%',
+        width: '100%',
+        videoId: "".concat(url)
+      });
+      this.overlay.style.display = 'flex';
+    }
+  }, {
+    key: "init",
+    value: function init() {
+      var tag = document.createElement('script');
+      tag.src = "https://www.youtube.com/iframe_api";
+      var firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+      this.bindTriggers();
+      this.bindCloseBtn();
     }
   }]);
 
