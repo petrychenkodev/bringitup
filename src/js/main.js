@@ -1,6 +1,7 @@
 import MainSlider from './modules/slider/slider-main';
 import MiniSlider from './modules/slider/slider-mini';
 import VideoPlayer from './modules/playVideo';
+import Difference from './modules/difference';
 
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -32,4 +33,7 @@ window.addEventListener('DOMContentLoaded', () => {
         next: '.feed__info-btns .slick-next'
     });
     feedSlider.init();
+
+    
 }); 
+new Difference('.officerold', '.officernew', '.officer__card-item').init();
